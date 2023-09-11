@@ -25,7 +25,7 @@ class Tab(ITab):
 
         # Add instruction label
         instructionText = """
-        Welcome to ProtoBurp! ProtoBurp converts JSON data into Protobuf messages based on a provided `.proto` file. This allows you to use Repeater or Intruder to quickly fuzz endpoints accepting Protobufs.
+        Welcome to ProtoBurp++ (ProtoBurp fork)! ProtoBurp++ converts JSON data into Protobuf messages based on a provided `.proto` file. This allows you to use Repeater or Intruder to quickly fuzz endpoints accepting Protobufs.
         
         To use this extension, please follow the steps below:
           1. Create or obtain a `.proto` file you'd like to create protobuf messages
@@ -33,6 +33,7 @@ class Tab(ITab):
           3. Click the 'Choose File' button to select your compiled protobuf file.
           4. Check the 'Enable ProtoBurp' checkbox.
           5. All requests sent with the header `ProtoBurp: True` will then be converted from JSON to a Protobuf!
+          6. ProtoBurp++ will add a new tab to Burp that will display the Protobuf message in JSON format.
         """
         instructions = JTextArea(instructionText)
         instructions.setEditable(False)  # Make the text area non-editable
@@ -50,11 +51,20 @@ class Tab(ITab):
         self._label = JLabel("No file chosen")
         fileChooserPanel.add(self._label)
 
+        fileLabelPB = JLabel("PB Protobuf File (.pb): ")
+        buttonPB = JButton("Choose File", actionPerformed=self.chooseFile)
+        fileChooserPanelPB = JPanel()  # A new panel to hold the file chooser components
+        fileChooserPanelPB.add(fileLabelPB)
+        fileChooserPanelPB.add(buttonPB)
+        self._label = JLabel("No file chosen")
+        fileChooserPanelPB.add(self._label)
+
         # Add option to enable/disable ProtoBurp
         enableProtoBurp = JCheckBox("Enable ProtoBurp", actionPerformed=self.toggleEnabled)
 
         topPanel.add(enableProtoBurp)
         topPanel.add(fileChooserPanel)
+        topPanel.add(fileChooserPanelPB)
         
 
         self._component.add(topPanel, BorderLayout.CENTER)
