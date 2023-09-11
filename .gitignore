@@ -1,1 +1,5 @@
 __pycache__/
+*$py.class
+log.txt
+.vscode/
+.jython_cache/
